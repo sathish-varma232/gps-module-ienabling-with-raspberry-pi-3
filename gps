@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#include <wiringPi.h>
+#include <wiringSerial.h>
+
+int main ()
+{
+  int serial_port; 
+  char dat,buff[100],GGA_code[3];
+  unsigned char IsitGGAstring=0;
+  unsigned char GGA_index=0;
+  unsigned char is_GGA_received_completely = 0;
+  
+  if ((serial_port = serialOpen ("/dev/ttyS0", 9600)) < 0)		/* open serial port */
+  {
+    fprintf (stderr, "Unable to open serial device: %s\n", strerror (errno)) ;
+    return 1 ;
+  }
+
+  if (wiringPiSetup () == -1)							/* initializes wiringPi setup */
+  {
+    fprintf (stdout, "Unable to start wiringPi: %s\n", strerror (errno)) ;
+    return 1 ;
+  }
